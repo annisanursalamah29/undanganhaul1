@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Haul Alm Dia</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Google -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- navbar -->
+    <style>
+      @media (max-width: 768px) {
+        /* Atur posisi navbar */
+        .navbar {
+          position: fixed;
+          left: 85;
+          margin-left: 87%;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 50px;
+          height: auto;
+          padding: 0;
+          background: rgba(230, 225, 225, 0.034) !important;
+          border-radius: 20px;
+          z-index: 1000;
+          overflow: hidden;
+        }
+
+        .container {
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          overflow-x: hidden;
+        }
+
+        /* Sembunyikan brand/title */
+        .navbar-brand {
+          display: none;
+        }
+
+        /* Atur layout navbar items */
+        .navbar-nav {
+          flex-direction: column;
+          margin: 0;
+          padding: 0;
+          gap: 8px;
+          width: 100%;
+          overflow: hidden;
+          align-items: center;
+        }
+
+        .navbar-nav .nav-item {
+          display: block;
+          margin: 0;
+          width: 36px;
+          height: 36px;
+        }
+
+        .navbar-nav .nav-link,
+        #playPauseBtn {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(24, 23, 23, 0.87);
+          border-radius: 50%;
+          padding: 0;
+          font-size: 14px;
+        }
+
+        .navbar-collapse {
+          display: flex !important;
+          width: 100%;
+          overflow: hidden;
+        }
+
+        .collapse:not(.show) {
+          display: flex !important;
+        }
+
+        .navbar-nav .nav-link:hover,
+        #playPauseBtn:hover {
+          background: rgba(226, 9, 64, 0.3);
+        }
+
+        .navbar-toggler {
+          display: none;
+        }
+
+        #playPauseBtn {
+          width: 36px;
+          height: 36px;
+          font-size: 14px;
+        }
+
+        /* Mencegah scroll horizontal pada body */
+        body {
+          overflow-x: hidden;
+          max-width: 100%;
+        }
+
+        /* Atur tinggi section untuk mobile */
+        #hadits,
+        #konten,
+        #acara,
+        #lokasi,
+        #galeri,
+        #gift,
+        #rsvp {
+          min-height: 100vh;
+          padding: 60px 15px;
+        }
+      }
+
+      /* Tablet */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        #hadits,
+        #konten,
+        #acara,
+        #lokasi,
+        #galeri,
+        #gift,
+        #rsvp {
+          min-height: 80vh;
+          padding: 80px 30px;
+        }
+      }
+
+      /* Desktop */
+      @media (min-width: 1025px) {
+        #hadits,
+        #konten,
+        #acara,
+        #lokasi,
+        #galeri,
+        #gift,
+        #rsvp {
+          min-height: 100vh;
+          padding: 100px 50px;
+        }
+      }
+
+      @keyframes putar {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .putar {
+        animation: putar 3s linear infinite;
+      }
+
+      .berhenti {
+        animation: none;
+      }
+
+      .btn-bulat {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .btn-bulat:hover {
+        transform: scale(1.5);
+      }
+
+      /* Tambahkan style untuk efek hover pada tombol navigasi */
+      .nav-link {
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link:hover {
+        transform: scale(1.5);
+      }
+    </style>
+    <!-- halaman phone -->
+    <style>
+      .font-romantic {
+        font-family: "Great Vibes", cursive;
+        color: #0c0c0c;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      a {
+        color: #0c0c0c;
+      }
+
+      .cover-section {
+        height: 100vh;
+        background: url("background.png");
+        background-size: cover;
+        background-position: center;
+      }
+
+      #home,
+      #konten,
+      #lokasi,
+      #galeri,
+      #rsvp {
+        background: url("background.png");
+        background-size: cover;
+        background-position: center;
+      }
+
+      #story,
+      #hadits,
+      #acara,
+      #gift {
+        background: linear-gradient(
+            rgba(236, 153, 192, 0.5),
+            rgba(236, 153, 192, 0.5)
+          ),
+          url("background.png");
+        background-size: cover;
+        background-position: center;
+      }
+      /* Tambahkan media query untuk layar handphone */
+      @media (max-width: 768px) {
+        .cover-section {
+          height: 100vh;
+        }
+
+        .font-romantic {
+          font-size: 2rem;
+          color: #0c0c0c;
+        }
+
+        .display-3 {
+          font-size: 1.5rem;
+          color: #0c0c0c;
+        }
+
+        .display-4 {
+          font-size: 1.25rem;
+          color: #0c0c0c;
+        }
+
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+          font-size: 0.9rem;
+        }
+
+        .btn {
+          font-size: 0.9rem;
+        }
+
+        /* Style untuk speech bubble di mobile */
+        .timeline .card {
+          position: relative;
+          margin: 15px 0;
+          border-radius: 12px;
+          border: none;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          width: 85%;
+          padding: 5px;
+          color: #0c0c0c;
+        }
+
+        .timeline .card::before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 10px;
+          border-color: transparent #f0efef transparent transparent;
+          top: 20px;
+          left: -20px;
+        }
+
+        .timeline-line {
+          left: 30px !important;
+        }
+
+        .timeline .col-md-6 {
+          padding-left: 50px;
+          margin-bottom: 30px;
+        }
+
+        .timeline .position-absolute {
+          left: 15px !important;
+          right: auto !important;
+        }
+
+        /* Sesuaikan ukuran peta lokasi */
+        .ratio-16x9 {
+          height: 200px !important;
+          width: 200px !important;
+          margin: 0 auto !important;
+          display: block !important;
+        }
+
+        .ratio-16x9 iframe {
+          height: 100% !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigasi -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      style="display: none; background: rgba(0, 0, 0, 0.5)"
+      id="navbar"
+    >
+      <div class="container">
+        <a class="navbar-brand font-romantic" href="#home">Alm Dia</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#hadits"><i class="fas fa-book"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#konten"
+                ><i class="fas fa-heart"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#acara"
+                ><i class="fas fa-calendar-alt"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#lokasi"
+                ><i class="fas fa-map-marker-alt"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#story"
+                ><i class="fas fa-book-open"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#galeri"
+                ><i class="fas fa-images"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#gift"><i class="fas fa-gift"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#rsvp"
+                ><i class="fas fa-envelope"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#pembuat"
+                ><i class="fas fa-user"></i
+              ></a>
+            </li>
+            <li class="nav-item">
+              <button
+                id="playPauseBtn"
+                class="btn btn-outline-light berhenti btn-bulat"
+                onclick="toggleMusic()"
+              >
+                <script>
+                  // Fungsi untuk toggle musik play/pause
+                  function toggleMusic() {
+                    const bgMusic = document.getElementById("bgMusic");
+                    const playPauseBtn =
+                      document.getElementById("playPauseBtn");
+
+                    if (bgMusic.paused) {
+                      bgMusic.play();
+                      playPauseBtn.innerHTML = '<i class="fas fa-music"></i>';
+                      playPauseBtn.classList.add("putar");
+                      playPauseBtn.classList.remove("berhenti");
+                    } else {
+                      bgMusic.pause();
+                      playPauseBtn.innerHTML = '<i class="fas fa-music"></i>';
+                      playPauseBtn.classList.remove("putar");
+                      playPauseBtn.classList.add("berhenti");
+                    }
+                  }
+                </script>
+                <i class="fas fa-music"></i>
+              </button>
+              <audio id="bgMusic" loop>
+                <source src="audio.mp3" type="audio/mpeg" />
+              </audio>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Bagian Cover -->
+    <section
+      id="cover"
+      class="cover-section d-flex align-items-center text-white text-center"
+    >
+      <div class="container text-center">
+        <h1 class="font-romantic display-5 mb-4">Alm Dia</h1>
+        <p class="h7">Kepada Yth.</p>
+        <p class="h7">Bapak/Ibu/Saudara/i</p>
+        <p class="h4 mt-3"  style="color: #f7f2f4" id="namaUndangan">
+          <script>
+            // Mengambil parameter nama dari URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const nama = urlParams.get("to");
+
+            // Menampilkan nama tamu
+            document.getElementById("namaUndangan").innerHTML =
+              nama || "Tamu Undangan";
+          </script>
+        </p>
+        <p class="h7 mx-2 mt-1">
+          Kami mengundang Anda untuk hadir dalam acara memperingati haul Alm
+          Dia
+        </p>
+        <p class="h4 mt-4" style="color: #0c0c0c">Minggu, 1 Januari 2025</p>
+
+        <button
+          class="btn btn-light mt-4 px-4"
+          style="background-color: #dd2462; color: white"
+          onclick="bukaUndangan()"
+        >
+          <i class="fas fa-envelope"></i> Buka Undangan
+        </button>
+        <script>
+          function bukaUndangan() {
+            document.getElementById("navbar").style.display = "block";
+            document.getElementById("konten").style.display = "block";
+            document.getElementById("acara").style.display = "block";
+            document.getElementById("home").style.display = "block";
+            document.getElementById("hadits").style.display = "block";
+            document.getElementById("lokasi").style.display = "block";
+            document.getElementById("gift").style.display = "block";
+            document.getElementById("rsvp").style.display = "block";
+            document.getElementById("pembuat").style.display = "block";
+            document.getElementById("story").style.display = "block";
+            document.getElementById("galeri").style.display = "block";
+            document.getElementById("pembuat").style.display = "block";
+            document.getElementById("cover").style.display = "none";
+
+            // Mulai pemutaran musik dan aktifkan animasi button
+            const bgMusic = document.getElementById("bgMusic");
+            const playPauseBtn = document.getElementById("playPauseBtn");
+            bgMusic.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-music"></i>';
+            playPauseBtn.classList.add("putar");
+            playPauseBtn.classList.remove("berhenti");
+
+            // Tambahkan smooth scroll ke bagian konten
+            document.getElementById("home").scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+        </script>
+      </div>
+    </section>
+
+    <!-- Bagian Home -->
+    <section id="home" class="py-5" style="display: none">
+      <div class="container text-center">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-8">
+            <img
+              src="galeri8.png"
+              class="img-fluid rounded mb-4"
+              alt="Foto Alm Dia"
+              style="max-width: 300px"
+            />
+            <h2 class="font-romantic display-7 mb-1">Alm Dia</h2>
+            <p class="small">Peringatan haul berlangsung pada:</p>
+            <h3 class="mb-3">Minggu, 1 Januari 2025</h3>
+            <div id="statusAcara" class="mb-3"></div>
+            <div class="row text-center">
+              <div class="col-3">
+                <div class="bg-light rounded p-2">
+                  <h3 id="days" style="color: red">00</h3>
+                  <small style="color: red">Hari</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="bg-light rounded p-2">
+                  <h3 id="hours" style="color: red">00</h3>
+                  <small style="color: red">Jam</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="bg-light rounded p-2">
+                  <h3 id="minutes" style="color: red">00</h3>
+                  <small style="color: red">Menit</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="bg-light rounded p-2">
+                  <h3 id="seconds" style="color: red">00</h3>
+                  <small style="color: red">Detik</small>
+                </div>
+              </div>
+            </div>
+            <script>
+              // Update countdown timer
+              var countDownDate = new Date("jan 1, 2025 08:00:00").getTime();
+              var acaraSelesai = new Date("jan 1, 2025 23:00:00").getTime();
+
+              var x = setInterval(function () {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+                var distanceSelesai = acaraSelesai - now;
+
+                // Hitung waktu tersisa sampai acara selesai
+                var daysSelesai = Math.floor(
+                  distanceSelesai / (1000 * 60 * 60 * 24)
+                );
+                var hoursSelesai = Math.floor(
+                  (distanceSelesai % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                var minutesSelesai = Math.floor(
+                  (distanceSelesai % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                var secondsSelesai = Math.floor(
+                  (distanceSelesai % (1000 * 60)) / 1000
+                );
+
+                // Hitung waktu untuk countdown normal
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(
+                  (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                var minutes = Math.floor(
+                  (distance % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Cek status acara
+                if (distance < 0 && distanceSelesai > 0) {
+                  // Acara sedang berlangsung - tampilkan countdown ke waktu selesai
+                  document.getElementById("days").innerHTML = daysSelesai;
+                  document.getElementById("hours").innerHTML = hoursSelesai;
+                  document.getElementById("minutes").innerHTML = minutesSelesai;
+                  document.getElementById("seconds").innerHTML = secondsSelesai;
+                  document.getElementById("statusAcara").innerHTML =
+                    "<h4><span class='badge fs-6 px-3 py-1' style='background-color:green; color: white;'> Haul Sedang Berlangsung</span></h4>";
+                } else if (distanceSelesai < 0) {
+                  // Acara sudah selesai
+                  clearInterval(x);
+                  document.getElementById("days").innerHTML = "00";
+                  document.getElementById("hours").innerHTML = "00";
+                  document.getElementById("minutes").innerHTML = "00";
+                  document.getElementById("seconds").innerHTML = "00";
+                  document.getElementById("statusAcara").innerHTML =
+                    "<h4><span class='badge fs-6 px-3 py-1' style='background-color: gray; color: white;'> Haul Telah Selesai</span></h4>";
+                } else {
+                  // Acara belum mulai, tampilkan countdown normal
+                  document.getElementById("days").innerHTML = days;
+                  document.getElementById("hours").innerHTML = hours;
+                  document.getElementById("minutes").innerHTML = minutes;
+                  document.getElementById("seconds").innerHTML = seconds;
+                  document.getElementById("statusAcara").innerHTML =
+                    "<h6><span class='badge fs-6 px-3 py-1' style='background-color: red; color: white;'>⏳ Menunggu Hari Peringatan</span></h6>";
+                }
+              }, 1000);
+            </script>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Hadits -->
+    <section id="hadits" class="py-5" style="display: none">
+      <div
+        class="container text-center d-flex py-5 justify-content-center min-vh-100"
+      >
+        <div>
+          <h2 class="font-romantic display-4 mb-5">Hadits</h2>
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+                  <p class="h5 mb-2" style="color: #dd2462">
+                    "Apabila seorang manusia meninggal dunia, maka terputuslah
+                    amalnya kecuali tiga hal, yaitu: sedekah jariyah, ilmu yang
+                    bermanfaat, atau anak sholeh yang mendoakannya."
+                  </p>
+                  <p class="text-muted" style="color: #dd2462">
+                    (Hadits Riwayat Muslim)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Almarhum/Almarhumah -->
+    <section id="konten" class="py-5" style="display: none">
+      <div class="container text-center">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-8">
+            <h2 class="font-romantic display-4 mb-5">Almarhum/Almarhumah</h2>
+            <img
+              src="galeri8.png"
+              class="img-fluid rounded mb-4"
+              alt="Foto Alm Dia"
+              style="max-width: 300px"
+            />
+            <h2 class="font-romantic text-black display-7 mb-1">Alm Dia</h2>
+            <p class="h5 text-white">Putri dari Bpk. Alm Dia & Ibu Alm Dia</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Acara -->
+    <section id="acara" class="py-5" style="display: none">
+      <div
+        class="container text-center d-flex justify-content-center min-vh-100"
+      >
+        <div>
+          <h2 class="font-romantic display-4 mb-5">Detail Acara</h2>
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h3 class="font-romantic h2 mb-3">Tahlil</h3>
+                  <p class="mb-1">08:00 WIB</p>
+                  <p class="mb-3">Masjid Al-Hidayah</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="font-romantic h2 mb-3">Do'a Bersama</h3>
+                  <p class="mb-1">10:00 WIB</p>
+                  <p class="mb-3">Masjid Al-Hidayah</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Denah Lokasi -->
+    <section id="lokasi" class="py-5" style="display: none">
+      <div class="container">
+        <h2 class="font-romantic display-4 text-center mb-5">Denah Lokasi</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <h3 class="font-romantic h2 mb-3">Lokasi Tahlil</h3>
+                <div class="ratio ratio-16x9 mb-3">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2834461714638!2d106.82715931476882!3d-6.175387395527934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMasjid%20Istiqlal!5e0!3m2!1sid!2sid!4v1635774243689!5m2!1sid!2sid"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"
+                  ></iframe>
+                </div>
+                <a
+                  href="https://goo.gl/maps/YOUR-TAHLIL-LOCATION"
+                  class="btn btn-outline-dark"
+                  target="_blank"
+                  style="background-color: #dd2462; color: white"
+                >
+                  <i class="fas fa-map-marker-alt"></i> Buka di Google Maps
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Story -->
+    <section id="story" class="py-5" style="display: none">
+      <div class="container text-center">
+        <h2 class="font-romantic display-4 mb-5">Kisah Almarhum/Almarhumah</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="timeline position-relative">
+              <!-- Garis penghubung utama -->
+              <div
+                class="timeline-line position-absolute"
+                style="
+                  top: 0;
+                  bottom: 0;
+                  left: 50%;
+                  width: 2px;
+                  background-color: #dee2e6;
+                "
+              ></div>
+
+              <!-- Timeline items dengan style speech bubble -->
+              <div class="row mb-5">
+                <div class="col-md-6 position-relative">
+                  <!-- Item pertama -->
+                  <div
+                    class="card shadow-sm"
+                    style="border-radius: 15px; border: none"
+                  >
+                    <div class="card-body">
+                      <div
+                        class="position-absolute"
+                        style="
+                          top: 50%;
+                          right: -10px;
+                          width: 20px;
+                          height: 20px;
+                          background: white;
+                          transform: rotate(45deg);
+                        "
+                      ></div>
+                      <h5 class="font-romantic h4">Kelahiran</h5>
+                      <p class="text-muted">Juni 2020</p>
+                      <p>
+                        Alm Kamu lahir di hari yang cerah, di bulan yang penuh
+                        harapan.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="position-absolute"
+                    style="
+                      top: 50%;
+                      right: -35px;
+                      width: 10px;
+                      height: 10px;
+                      background: #dee2e6;
+                      border-radius: 50%;
+                    "
+                  ></div>
+                </div>
+              </div>
+
+              <div class="row mb-5">
+                <div class="col-md-6 offset-md-6 position-relative">
+                  <!-- Item kedua -->
+                  <div
+                    class="card shadow-sm"
+                    style="border-radius: 15px; border: none"
+                  >
+                    <div class="card-body">
+                      <div
+                        class="position-absolute"
+                        style="
+                          top: 50%;
+                          left: -10px;
+                          width: 20px;
+                          height: 20px;
+                          background: white;
+                          transform: rotate(45deg);
+                        "
+                      ></div>
+                      <h5 class="font-romantic h4">Pendidikan</h5>
+                      <p class="text-muted">Desember 2022</p>
+                      <p>
+                        Alm Kamu lulus dari sekolah dengan nilai yang memuaskan.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="position-absolute"
+                    style="
+                      top: 50%;
+                      left: -35px;
+                      width: 10px;
+                      height: 10px;
+                      background: #dee2e6;
+                      border-radius: 50%;
+                    "
+                  ></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 position-relative">
+                  <!-- Item ketiga -->
+                  <div
+                    class="card shadow-sm"
+                    style="border-radius: 15px; border: none"
+                  >
+                    <div class="card-body">
+                      <div
+                        class="position-absolute"
+                        style="
+                          top: 50%;
+                          right: -10px;
+                          width: 20px;
+                          height: 20px;
+                          background: white;
+                          transform: rotate(45deg);
+                        "
+                      ></div>
+                      <h5 class="font-romantic h4">Perjalanan Dakwah</h5>
+                      <p class="text-muted">Oktober 2023</p>
+                      <p>
+                        Alm Kamu menjadi seorang pengajar di salah satu lembaga
+                        dakwah.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="position-absolute"
+                    style="
+                      top: 50%;
+                      right: -35px;
+                      width: 10px;
+                      height: 10px;
+                      background: #dee2e6;
+                      border-radius: 50%;
+                    "
+                  ></div>
+                </div>
+              </div>
+
+              <div class="row mb-5"></div>
+                <div class="col-md-6 offset-md-6 position-relative">
+                  <!-- Item keempat -->
+                  <div
+                    class="card shadow-sm"
+                    style="border-radius: 15px; border: none"
+                  >
+                    <div class="card-body">
+                      <div
+                        class="position-absolute"
+                        style="
+                          top: 50%;
+                          left: -10px;
+                          width: 20px;
+                          height: 20px;
+                          background: white;
+                          transform: rotate(45deg);
+                        "
+                      ></div>
+                      <h5 class="font-romantic h4">Wafat</h5>
+                      <p class="text-muted">Desember 2022</p>
+                      <p>
+                        Alm Kamu wafat di hari yang cerah, di bulan yang penuh
+                        harapan.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="position-absolute"
+                    style="
+                      top: 50%;
+                      left: -35px;
+                      width: 10px;
+                      height: 10px;
+                      background: #dee2e6;
+                      border-radius: 50%;
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Galeri -->
+    <section id="galeri" class="py-5" style="display: none">
+      <div class="container text-center">
+        <h2 class="font-romantic display-4 mb-5">Galeri Foto</h2>
+        <div
+          id="carouselGaleri"
+          class="carousel slide"
+          data-bs-ride="carousel"
+          style="max-width: 400px; margin: 0 auto"
+        >
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselGaleri"
+              data-bs-slide-to="0"
+              class="active"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselGaleri"
+              data-bs-slide-to="1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselGaleri"
+              data-bs-slide-to="2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselGaleri"
+              data-bs-slide-to="3"
+            ></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="ratio ratio-1x1">
+                <img
+                  src="galeri1.jpg"
+                  class="d-block w-100 rounded object-fit-cover"
+                  alt="Foto 1"
+                />
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="ratio ratio-1x1">
+                <img
+                  src="galeri4.jpg"
+                  class="d-block w-100 rounded object-fit-cover"
+                  alt="Foto 2"
+                />
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="ratio ratio-1x1">
+                <img
+                  src="galeri8.png"
+                  class="d-block w-100 rounded object-fit-cover"
+                  alt="Foto 3"
+                />
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="ratio ratio-1x1">
+                <img
+                  src="galeri1.jpg"
+                  class="d-block w-100 rounded object-fit-cover"
+                  alt="Foto 4"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselGaleri"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselGaleri"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Wedding Gift -->
+    <section id="gift" class="py-5" style="display: none">
+      <div class="container text-center">
+        <h2 class="font-romantic display-4 mb-5">Sedekah</h2>
+        <p class="mb-4">
+          Dalam acara haul ini, kami memohon keikhlasan hati dari
+          saudara-saudari untuk untuk turut berpartisipasi dalam sedekah pada
+          acara haul ini. Sedekah ini tidak hanya sebagai bentuk penghormatan
+          kepada almarhum/almarhumah, tetapi juga sebagai amal ibadah kita
+          bersama. Semoga Allah SWT menerima dan membalas kebaikan kita. Aamiin.
+        </p>
+
+        <div class="row justify-content-center">
+          <div class="col-md-6 mb-4">
+            <div class="card" style="max-width: 300px; margin: 0 auto">
+              <div class="card-body">
+                <img
+                  src="bank.png"
+                  alt="BCA"
+                  class="mb-3"
+                  style="max-width: 80px"
+                />
+                <h5 class="card-title">Bank BCA</h5>
+                <p class="card-text">1234567890</p>
+                <p class="card-text">a.n Kamu</p>
+                <button
+                  class="btn btn-outline-dark"
+                  onclick="copyToClipboard('1234567890')"
+                  style="background-color: #dd2462; color: white"
+                >
+                  <i class="fas fa-copy"></i> Salin Nomor
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="card" style="max-width: 300px; margin: 0 auto">
+              <div class="card-body">
+                <img
+                  src="bank.png"
+                  alt="Mandiri"
+                  class="mb-3"
+                  style="max-width: 80px"
+                />
+                <h5 class="card-title">Bank Mandiri</h5>
+                <p class="card-text">0987654321</p>
+                <p class="card-text">a.n Aku</p>
+                <button
+                  class="btn btn-outline-dark"
+                  onclick="copyToClipboard('0987654321')"
+                  style="background-color: #dd2462; color: white"
+                >
+                  <i class="fas fa-copy"></i> Salin Nomor
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian RSVP -->
+    <section id="rsvp" class="py-5" style="display: none">
+      <div class="container">
+        <h2 class="font-romantic display-4 text-center mb-5">RSVP</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <form id="rsvpForm">
+                  <div class="mb-3">
+                    <label for="nama" class="form-label">Nama Lengkap</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nama"
+                      name="nama"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="kehadiran" class="form-label"
+                      >Konfirmasi Kehadiran</label
+                    >
+                    <select
+                      class="form-select"
+                      id="kehadiran"
+                      name="kehadiran"
+                      required
+                    >
+                      <option value="">Pilih konfirmasi kehadiran</option>
+                      <option value="hadir">Ya, Saya akan hadir</option>
+                      <option value="tidak_hadir">
+                        Maaf, Saya tidak bisa hadir
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="jumlahTamu" class="form-label"
+                      >Jumlah Tamu</label
+                    >
+                    <select
+                      class="form-select"
+                      id="jumlahTamu"
+                      name="jumlahTamu"
+                      required
+                    >
+                      <option value="1">1 orang</option>
+                      <option value="2">2 orang</option>
+                      <option value="3">3 orang</option>
+                      <option value="4">4 orang</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="ucapan" class="form-label">Ucapan & Doa</label>
+                    <textarea
+                      class="form-control"
+                      id="ucapan"
+                      rows="3"
+                      name="ucapan"
+                      placeholder="Tuliskan ucapan dan doa untuk kedua mempelai"
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-dark w-100"
+                    onclick="kirimRSVP(event)"
+                    style="background-color: #0c0c0c; color: white"
+                  >
+                    Kirim RSVP
+                  </button>
+                  <div id="daftarRSVP" class="mt-4">
+                    <div
+                      class="d-flex justify-content-between align-items-center mb-3"
+                    >
+                      <h5 class="mb-0">Daftar RSVP:</h5>
+                      <div>
+                        <span class="badge bg-primary me-2">
+                          <i class="fas fa-users"></i> Total RSVP:
+                          <span id="totalRSVP">0</span>
+                        </span>
+                        <span class="badge bg-success me-2">
+                          <i class="fas fa-user-check"></i> Hadir:
+                          <span id="tamuHadir">0</span>
+                        </span>
+                        <span class="badge bg-danger">
+                          <i class="fas fa-user-times"></i> Tidak Hadir:
+                          <span id="tamuTidakHadir">0</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div
+                        id="rsvpList"
+                        class="card-body overflow-auto"
+                        style="max-height: 300px"
+                      >
+                        <!-- Daftar RSVP akan ditampilkan di sini -->
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        // 4. Modifikasi fungsi kirimRSVP dengan pengecekan keamanan
+        function kirimRSVP(e) {
+          e.preventDefault();
+
+          const nama = document.getElementById("nama").value;
+          const kehadiran = document.getElementById("kehadiran").value;
+          const jumlahTamu = document.getElementById("jumlahTamu").value;
+          const ucapan = document.getElementById("ucapan").value;
+
+          // Validasi input
+          if (!nama || !kehadiran || !jumlahTamu || !ucapan) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Mohon lengkapi semua field yang diperlukan",
+            });
+            return;
+          }
+
+          // Buat objek RSVP baru
+          const rsvpData = {
+            nama,
+            kehadiran,
+            jumlahTamu,
+            ucapan,
+            waktu: new Date().toLocaleString(),
+          };
+
+          // Simpan ke localStorage
+          let rsvpList = JSON.parse(localStorage.getItem("rsvpList")) || [];
+          rsvpList.push(rsvpData);
+          localStorage.setItem("rsvpList", JSON.stringify(rsvpList));
+
+          // Kirim ke Google Sheets
+          const scriptURL =
+            "https://script.google.com/macros/s/AKfycbwSNOsuYOrqh0ZqkjNLVGISSj-jziLZovQ6l3DzWv-hcczjZbss2gEqqoAWg41oyNd8gQ/exec";
+          const formData = new FormData();
+          formData.append("nama", nama);
+          formData.append("kehadiran", kehadiran);
+          formData.append("jumlahTamu", jumlahTamu);
+          formData.append("ucapan", ucapan);
+          formData.append("waktu", new Date().toLocaleString());
+
+          fetch(scriptURL, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              console.log("Success!", response);
+              // Tampilkan pesan sukses
+              Swal.fire({
+                icon: "success",
+                title: "Terima Kasih",
+                text: "RSVP Anda telah terkirim",
+                timer: 3000,
+                showConfirmButton: false,
+              });
+
+              // Reset form
+              document.getElementById("rsvpForm").reset();
+
+              // Perbarui tampilan daftar RSVP
+              tampilkanRSVP();
+            })
+            .catch((error) => {
+              console.error("Error!", error.message);
+              // Tampilkan pesan error
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat mengirim data",
+              });
+            });
+        }
+
+        // 1. Tambahkan validasi input untuk form RSVP
+        function validateInput(input) {
+          // Sanitasi input
+          const sanitized = DOMPurify.sanitize(input);
+          // Validasi panjang
+          if (sanitized.length < 2 || sanitized.length > 100) {
+            return false;
+          }
+          // Validasi karakter
+          const regex = /^[a-zA-Z0-9\s\-_.,!?&]+$/;
+          return regex.test(sanitized);
+        }
+
+        // 2. Enkripsi data sensitif sebelum disimpan
+        function encryptData(data) {
+          return CryptoJS.AES.encrypt(data, secretKey).toString();
+        }
+
+        // 3. Implementasi rate limiting untuk API calls
+        let lastCallTime = 0;
+        const minCallInterval = 1000; // 1 detik
+
+        function checkRateLimit() {
+          const now = Date.now();
+          if (now - lastCallTime < minCallInterval) {
+            throw new Error("Terlalu banyak permintaan, mohon tunggu sebentar");
+          }
+          lastCallTime = now;
+        }
+
+        // 5. Tambahkan Content Security Policy
+        const meta = document.createElement("meta");
+        meta.httpEquiv = "Content-Security-Policy";
+        meta.content =
+          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;";
+        document.head.appendChild(meta);
+
+        // Fungsi untuk menampilkan daftar RSVP
+        function tampilkanRSVP() {
+          const rsvpList = JSON.parse(localStorage.getItem("rsvpList")) || [];
+          const rsvpListElement = document.getElementById("rsvpList");
+
+          // Hitung total
+          const totalRSVP = rsvpList.length;
+
+          // Pisahkan dan hitung tamu yang hadir dan tidak hadir
+          const tamuHadir = rsvpList
+            .filter((rsvp) => rsvp.kehadiran === "hadir")
+            .reduce((total, rsvp) => total + parseInt(rsvp.jumlahTamu), 0);
+
+          const tamuTidakHadir = rsvpList
+            .filter((rsvp) => rsvp.kehadiran === "tidak_hadir")
+            .reduce((total, rsvp) => total + parseInt(rsvp.jumlahTamu), 0);
+
+          // Update tampilan total
+          document.getElementById("totalRSVP").textContent = totalRSVP;
+          document.getElementById("tamuHadir").textContent = tamuHadir;
+          document.getElementById("tamuTidakHadir").textContent =
+            tamuTidakHadir;
+
+          rsvpListElement.innerHTML = "";
+
+          rsvpList.reverse().forEach((rsvp) => {
+            const hadir = rsvp.kehadiran === "hadir" ? "Hadir" : "Tidak Hadir";
+            const badge =
+              rsvp.kehadiran === "hadir" ? "bg-success" : "bg-danger";
+
+            const item = document.createElement("div");
+            item.className = "card mb-2";
+            item.innerHTML = `
+              <div class="card-body py-2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h6 class="mb-1 fw-bold">${rsvp.nama}</h6>
+                    <p class="mb-1 small text-muted">${rsvp.waktu}</p>
+                    <p class="mb-1">${rsvp.ucapan}</p>
+                  </div>
+                  <div class="ms-2">
+                    <span class="badge ${badge} text-white mb-1 d-block">${hadir}</span>
+                    <span class="badge bg-primary text-white d-block">${rsvp.jumlahTamu} orang</span>
+                  </div>
+                </div>
+              </div>
+            `;
+
+            rsvpListElement.appendChild(item);
+          });
+        }
+
+        // Panggil fungsi tampilkanRSVP saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", tampilkanRSVP);
+      </script>
+    </section>
+
+    <!-- Bagian Pembuat -->
+    <section id="pembuat" class="py-3 bg-dark text-white" style="display: none">
+      <div class="container text-center">
+        <h2 class="font-romantic text-white display-5 mb-3">Dibuat Oleh</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="card bg-light text-dark">
+              <div class="card-body">
+                <img
+                  src="afun.png"
+                  class="rounded-circle mb-2"
+                  width="100"
+                  alt="Foto Pembuat"
+                />
+                <h3 class="font-romantic h3 mb-2">Anisa Nursalamah</h3>
+                <p class="mb-1 small">Web Developer</p>
+                <div class="social-links mt-2">
+                  <a href="https://wa.me/+6285603923792" class="text-dark mx-1"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                  <a
+                    href="https://www.instagram.com/nursalamahanisa/"
+                    class="text-dark mx-1"
+                    ><i class="fab fa-instagram"></i
+                  ></a>
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=annisanursalamah29@gmail.com"
+                    class="text-dark mx-1"
+                    ><i class="fas fa-envelope"></i
+                  ></a>
+                </div>
+                <p class="mt-3 small">
+                  Dibuat dengan
+                  <i class="fas fa-heart text-danger"></i> penuh cinta
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Script Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
